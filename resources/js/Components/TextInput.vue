@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 
 const model = defineModel({
-    type: String,
+    type: [String, Number],
     required: true,
 });
 
