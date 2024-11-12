@@ -80,14 +80,16 @@ const submit = () => {
 	                    <form @submit.prevent="submit">
 		                   <template v-if="currentStep === 1">
 			                   <div class="mt-4">
-				                   <InputLabel for="from-country" value="From Country" />
+				                   <label for="from-country" class="block text-sm font-medium text-gray-700">From Country</label>
 				                   <select id="from-country" v-model="form.step1.from_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
 					                   <option value="">--</option>
 					                   <option v-for="country in props.countries" :value="country.id" :key="country.id">
 						                   {{ country.name }}
 					                   </option>
 				                   </select>
-				                   <InputError class="mt-2" :message="form.errors['step1.from_country']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step1.from_country']">
+					                   {{ form.errors['step1.from_country'] }}
+				                   </div>
 			                   </div>
 
 			                   <div class="mt-4">
@@ -98,7 +100,9 @@ const submit = () => {
 						                   {{ city.name }}
 					                   </option>
 				                   </select>
-				                   <InputError class="mt-2" :message="form.errors['step1.from_city']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step1.from_city']">
+					                   {{ form.errors['step1.from_city'] }}
+				                   </div>
 			                   </div>
 		                   </template>
 		                   
@@ -111,7 +115,9 @@ const submit = () => {
 						                   {{ country.name }}
 					                   </option>
 				                   </select>
-				                   <InputError class="mt-2" :message="form.errors['step2.to_country']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step2.to_country']">
+					                   {{ form.errors['step2.to_country'] }}
+				                   </div>
 			                   </div>
 				                  
 			                   <div class="mt-4">
@@ -122,7 +128,9 @@ const submit = () => {
 						                   {{ city.name }}
 					                   </option>
 				                   </select>
-				                   <InputError class="mt-2" :message="form.errors['step2.to_city']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step2.to_city']">
+					                   {{ form.errors['step2.to_city'] }}
+				                   </div>
 			                   </div>
 		                   </template>
 		                   
@@ -130,13 +138,17 @@ const submit = () => {
 			                   <div class="mt-4">
 				                   <InputLabel for="adults-number" value="Adults" />
 				                   <TextInput v-model="form.step3.adults" id="adults-number" type="number" />
-				                   <InputError class="mt-2" :message="form.errors['step3.adults']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step3.adults']">
+					                   {{ form.errors['step3.adults'] }}
+				                   </div>
 			                   </div>
 				                  
 			                   <div class="mt-4">
 				                   <InputLabel for="children-number" value="Children" />
 				                   <TextInput v-model="form.step3.children" id="children-number" type="number" />
-				                   <InputError class="mt-2" :message="form.errors['step3.children']" />
+				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step3.children']">
+					                   {{ form.errors['step3.children'] }}
+				                   </div>
 			                   </div>
 			                   
 			                   <div class="mt-4" v-show="price">
