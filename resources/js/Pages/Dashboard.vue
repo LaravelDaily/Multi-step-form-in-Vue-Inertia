@@ -102,7 +102,7 @@ const submit = () => {
 			                   </div>
 		                   </template>
 		                   
-		                   <template v-if="currentStep === 2">
+		                   <div v-if="currentStep === 2">
 			                   <div class="mt-4">
 				                   <label for="to-country" class="block text-sm font-medium text-gray-700">To Country</label>
 				                   <select id="to-country" v-model="form.step2.to_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
@@ -128,9 +128,9 @@ const submit = () => {
 					                   {{ form.errors['step2.to_city'] }}
 				                   </div>
 			                   </div>
-		                   </template>
+		                   </div>
 
-		                   <template v-if="currentStep === 3">
+		                   <div v-if="currentStep === 3">
 			                   <div class="mt-4">
 				                   <label for="adults-number" class="block text-sm font-medium text-gray-700">Adults</label>
 				                   <input v-model="form.step3.adults" id="adults-number" type="number" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required />
@@ -150,7 +150,7 @@ const submit = () => {
 			                   <div class="mt-4" v-show="price">
 				                   Price: <span class="font-bold">{{ price }}</span>
 			                   </div>
-		                   </template>
+		                   </div>
 		                    
 		                    <button class="mt-4 inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900">
 			                    {{ currentStep < 3 ? 'Next' : 'Submit' }}
