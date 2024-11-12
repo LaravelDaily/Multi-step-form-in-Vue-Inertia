@@ -19,6 +19,7 @@ Route::get('/dashboard', [MultiStepController::class, 'index'])->middleware(['au
 
 Route::middleware('auth')->group(function () {
     Route::post('multi-step', [MultiStepController::class, 'store'])->name('multi-step.store');
+    Route::inertia('success', 'Success')->name('success');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

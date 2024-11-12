@@ -20,6 +20,10 @@ class MultiStepController extends Controller
 
     public function store(MultiStepFormRequest $request)
     {
-        // save data in the DB
+        $cityPrice = City::find($request->integer('step2.to_city'));
+
+        $price = $cityPrice->adult_price * $request->integer('step3.adults') + $cityPrice->children_price * $request->integer('step3.children');
+
+        return redirect()->route('success')->with('price', $price);
     }
 }

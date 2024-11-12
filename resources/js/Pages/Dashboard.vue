@@ -2,10 +2,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import InputError from '@/Components/InputError.vue';
-import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
 	countries: Object,
@@ -31,23 +27,23 @@ const form = useForm({
 
 const submit = () => {
 	form.clearErrors()
-	price.value = 0
 	
-	form
-		.transform((data) => ({
-			...data,
-			step: currentStep.value
-		}))
-		.post(route('multi-step.store'), {
-			onSuccess: () => {
-				if (currentStep.value < 3) {
-					currentStep.value = currentStep.value + 1;
-					form.clearErrors();
-				} else {
-					price.value = form.step3.adults * 100 + form.step3.children * 75
-				}
-			},
-	})
+	if (currentStep.value < 3) {
+		currentStep.value = currentStep.value + 1;
+	} else {
+		form
+			.post(route('multi-step.store'), {
+				onError: (errors) => {
+					let firstErrorKey = Object.keys(errors)[0]; // Get the first error key
+					let stepNumberMatch = firstErrorKey.match(/step(\d+)/);
+
+					currentStep.value = Number(stepNumberMatch[1])
+				},
+				onSuccess: () => {
+					form.clearErrors()
+				},
+			})
+	}
 }
 </script>
 
@@ -81,7 +77,7 @@ const submit = () => {
 		                   <template v-if="currentStep === 1">
 			                   <div class="mt-4">
 				                   <label for="from-country" class="block text-sm font-medium text-gray-700">From Country</label>
-				                   <select id="from-country" v-model="form.step1.from_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+				                   <select id="from-country" v-model="form.step1.from_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
 					                   <option value="">--</option>
 					                   <option v-for="country in props.countries" :value="country.id" :key="country.id">
 						                   {{ country.name }}
@@ -93,8 +89,8 @@ const submit = () => {
 			                   </div>
 
 			                   <div class="mt-4">
-				                   <InputLabel for="from-city" value="From City" />
-				                   <select id="from-city" v-model="form.step1.from_city" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+				                   <label for="from-city" class="block text-sm font-medium text-gray-700">From City</label>
+				                   <select id="from-city" v-model="form.step1.from_city" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
 					                   <option value="">--</option>
 					                   <option v-for="city in props.cities[form.step1.from_country]" :value="city.id" :key="city.id">
 						                   {{ city.name }}
@@ -108,8 +104,8 @@ const submit = () => {
 		                   
 		                   <template v-if="currentStep === 2">
 			                   <div class="mt-4">
-				                   <InputLabel for="to-country" value="To Country" />
-				                   <select id="to-country" v-model="form.step2.to_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+				                   <label for="to-country" class="block text-sm font-medium text-gray-700">To Country</label>
+				                   <select id="to-country" v-model="form.step2.to_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
 					                   <option value="">--</option>
 					                   <option v-for="country in props.countries" :value="country.id" :key="country.id">
 						                   {{ country.name }}
@@ -119,10 +115,10 @@ const submit = () => {
 					                   {{ form.errors['step2.to_country'] }}
 				                   </div>
 			                   </div>
-				                  
+
 			                   <div class="mt-4">
-				                   <InputLabel for="to-city" value="To City" />
-				                   <select id="to-city" v-model="form.step2.to_city" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+				                   <label for="to-city" class="block text-sm font-medium text-gray-700">To City</label>
+				                   <select id="to-city" v-model="form.step2.to_city" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
 					                   <option value="">--</option>
 					                   <option v-for="city in props.cities[form.step2.to_country]" :value="city.id" :key="city.id">
 						                   {{ city.name }}
@@ -133,19 +129,19 @@ const submit = () => {
 				                   </div>
 			                   </div>
 		                   </template>
-		                   
+
 		                   <template v-if="currentStep === 3">
 			                   <div class="mt-4">
-				                   <InputLabel for="adults-number" value="Adults" />
-				                   <TextInput v-model="form.step3.adults" id="adults-number" type="number" />
+				                   <label for="adults-number" class="block text-sm font-medium text-gray-700">Adults</label>
+				                   <input v-model="form.step3.adults" id="adults-number" type="number" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required />
 				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step3.adults']">
 					                   {{ form.errors['step3.adults'] }}
 				                   </div>
 			                   </div>
 				                  
 			                   <div class="mt-4">
-				                   <InputLabel for="children-number" value="Children" />
-				                   <TextInput v-model="form.step3.children" id="children-number" type="number" />
+				                   <label for="children-number" class="block text-sm font-medium text-gray-700">Children</label>
+				                   <input v-model="form.step3.children" id="children-number" type="number" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required />
 				                   <div class="mt-2 text-sm text-red-600" v-show="form.errors['step3.children']">
 					                   {{ form.errors['step3.children'] }}
 				                   </div>
@@ -156,9 +152,9 @@ const submit = () => {
 			                   </div>
 		                   </template>
 		                    
-		                    <primary-button class="mt-4">
+		                    <button class="mt-4 inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900">
 			                    {{ currentStep < 3 ? 'Next' : 'Submit' }}
-		                    </primary-button>
+		                    </button>
 	                    </form>
 	                   
                     </div>

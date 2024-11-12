@@ -10,6 +10,8 @@ class City extends Model
     protected $fillable = [
         'country_id',
         'name',
+        'adult_price',
+        'child_price',
     ];
 
     public function country(): BelongsTo

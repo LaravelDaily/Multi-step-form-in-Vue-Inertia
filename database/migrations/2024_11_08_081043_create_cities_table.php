@@ -11,6 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('country_id');
             $table->string('name');
+            $table->decimal('adult_price');
+            $table->decimal('children_price');
             $table->timestamps();
         });
     }
