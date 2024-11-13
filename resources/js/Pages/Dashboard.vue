@@ -8,7 +8,6 @@ const props = defineProps({
 	cities: Object,
 })
 
-const price = ref(0)
 const currentStep = ref(1)
 const form = useForm({
 	step1: {

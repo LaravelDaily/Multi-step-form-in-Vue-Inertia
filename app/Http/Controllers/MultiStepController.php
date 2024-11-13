@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\City;
 use Inertia\Response;
 use App\Models\Country;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\MultiStepFormRequest;
 
 class MultiStepController extends Controller
@@ -18,7 +19,7 @@ class MultiStepController extends Controller
         ]);
     }
 
-    public function store(MultiStepFormRequest $request)
+    public function store(MultiStepFormRequest $request): RedirectResponse
     {
         $cityPrice = City::find($request->integer('step2.to_city'));
 
