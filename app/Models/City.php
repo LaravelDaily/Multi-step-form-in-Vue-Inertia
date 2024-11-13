@@ -13,9 +13,4 @@ class City extends Model
         'adult_price',
         'child_price',
     ];
-
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
 }

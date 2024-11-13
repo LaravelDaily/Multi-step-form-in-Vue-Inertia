@@ -38,10 +38,7 @@ const submit = () => {
 					let stepNumberMatch = firstErrorKey.match(/step(\d+)/);
 
 					currentStep.value = Number(stepNumberMatch[1])
-				},
-				onSuccess: () => {
-					form.clearErrors()
-				},
+				}
 			})
 	}
 }
