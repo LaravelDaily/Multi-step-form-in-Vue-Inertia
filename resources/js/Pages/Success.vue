@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Success" />
 
     <AuthenticatedLayout>
         <template #header>
