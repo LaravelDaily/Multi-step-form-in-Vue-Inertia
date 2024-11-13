@@ -71,7 +71,7 @@ const submit = () => {
 					    </div>
 	                    
 	                    <form @submit.prevent="submit">
-		                   <template v-if="currentStep === 1">
+		                   <div v-if="currentStep === 1">
 			                   <div class="mt-4">
 				                   <label for="from-country" class="block text-sm font-medium text-gray-700">From Country</label>
 				                   <select id="from-country" v-model="form.step1.from_country" class="mt-2 w-52 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
@@ -97,7 +97,7 @@ const submit = () => {
 					                   {{ form.errors['step1.from_city'] }}
 				                   </div>
 			                   </div>
-		                   </template>
+		                   </div>
 		                   
 		                   <div v-if="currentStep === 2">
 			                   <div class="mt-4">
